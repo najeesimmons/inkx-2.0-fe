@@ -1,9 +1,27 @@
-import { Image, LoadingOverlay} from "@mantine/core"
+import { Image, LoadingOverlay, Text, createStyles} from "@mantine/core"
 import { useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
-import styles from '../../styles/Tattoos.module.css'
+
+const useStyles = createStyles((theme) => ({
+    myMasonryGrid: {
+      display: 'flex',
+      marginLeft: '-10x',
+      width: 'auto',
+    },
+    myMasonryGridColumn: {
+      paddingLeft: '10px',
+      backgroundClip: 'padding-box',
+    },
+    myMasonryGridItems: {
+      borderRadius: '20px',
+      display: 'block',
+      marginBottom: '5px',
+    },
+  }));
 
 export default function Tattoos() {
+
+    const { classes } = useStyles();
     const [tattoos, setTattoos] = useState([]);
     const [tattoosIsLoading, setTattoosIsLoading] = useState(true);
     
@@ -22,8 +40,8 @@ export default function Tattoos() {
    
     const fetchedTattoos = tattoos.map((tattoo: any) => {
         return (
-            <Image key={tattoo.data.id} src={tattoo.data.image.url} alt={tattoo.data.description} className={styles.my_masonry_grid_items} />
-        )})
+            <Image key={tattoo.data.id} src={tattoo.data.image.url} alt={tattoo.data.description} className={classes.myMasonryGridItems}/>)
+        })
 
         const breakpointColumnsObj = {
             default: 4,
@@ -34,11 +52,12 @@ export default function Tattoos() {
 
         if (tattoosIsLoading) return <LoadingOverlay visible={tattoosIsLoading}/>
         
-    return (<>
+    return (
+    <>
     <Masonry
         breakpointCols={breakpointColumnsObj}
-        className={styles.my_masonry_grid}
-        columnClassName={styles.my_masonry_grid_column}
+        className={classes.myMasonryGrid}
+        columnClassName={classes.myMasonryGridColumn}
     >
     {fetchedTattoos}
 </Masonry>

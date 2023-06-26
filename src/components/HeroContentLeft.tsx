@@ -6,7 +6,7 @@ const useStyles = createStyles((theme) => ({
     backgroundImage:
       'url(https://i.imgur.com/ZDzan4u.png)',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center', 
   },
 
   container: {

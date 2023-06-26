@@ -1,14 +1,33 @@
-import { MyAppShell } from '@/components/Container/MyAppShell'
-import '@/styles/globals.css'
-import { MantineProvider } from '@mantine/core'
+import { HeaderMenu } from '@/components/HeaderMenu'
+import { AppShell, Header, MantineProvider, Text, Group} from '@mantine/core'
 import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (<>
-  <MantineProvider withGlobalStyles
-      withNormalizeCSS
-      theme={{colorScheme: "light"}}>
-  {/* <Component {...pageProps} /> */}
-  <MyAppShell/>
-  </MantineProvider></>)
+
+  const links = [
+    {
+      link: "/",
+      label: "Home",
+    },
+    {
+      link: "/artists",
+      label: "Artists",
+    },
+    {
+      link: "/tattoos",
+      label: "Tattoos",
+    },
+  ]
+
+  return (
+
+
+  <MantineProvider>
+  <AppShell 
+  header={<HeaderMenu links={links}/>}
+
+      >
+   <Component {...pageProps} />
+   </AppShell>
+  </MantineProvider>)
 }

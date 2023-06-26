@@ -10,7 +10,7 @@ export default function Tattoos() {
     useEffect(() => {
         const getTattoos = async () => {
             try {
-            const response = await fetch('https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=24&page=2')
+            const response = await fetch('https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=50&page=1')
             const data = await response.json()
             setTattoos(data.data)
             } catch (error) {

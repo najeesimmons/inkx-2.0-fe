@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
   <MantineProvider>
-  <AppShell 
+  <AppShell maw={1100} m="0 auto"
   header={<HeaderMenu links={links}/>}
 
       >

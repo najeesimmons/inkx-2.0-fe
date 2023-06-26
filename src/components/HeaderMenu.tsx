@@ -1,8 +1,6 @@
 import { createStyles, Header, Menu, Group, Center, Burger, Container, rem, Text} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/router'
-// import { IconChevronDown } from '@tabler/icons';
-// import { MantineLogo } from '@mantine/ds';
 
 const useStyles = createStyles((theme) => ({
   inner: {

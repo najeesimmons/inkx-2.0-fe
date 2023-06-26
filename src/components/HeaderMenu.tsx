@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
   inner: {
     height: rem(56),
     display: 'flex',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
   },
 
@@ -22,6 +22,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.largerThan('sm')]: {
       display: 'none',
     },
+    paddingLeft: 25,
   },
 
   link: {
@@ -67,54 +68,15 @@ export function HeaderMenu({ links }: HeaderSearchProps) {
     {link.label}
   </a>
     )})
-  // const items = links.map((link) => {
-  //   const menuItems = link.links?.map((item) => (
-  //     <Menu.Item key={item.link}>{item.label}</Menu.Item>
-  //   ));
-
-    // if (menuItems) {
-    //   return (
-    //     <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
-    //       <Menu.Target>
-    //         <a
-    //           href={link.link}
-    //           className={classes.link}
-    //           onClick={(event) => event.preventDefault()}
-    //         >
-    //           <Center>
-    //             <span className={classes.linkLabel}>{link.label}</span>
-    //             {/* <IconChevronDown /> */}
-    //           </Center>
-    //         </a>
-    //       </Menu.Target>
-    //       <Menu.Dropdown>{menuItems}</Menu.Dropdown>
-    //     </Menu>
-    //   );
-    // }
-
-  //   return (
-  //     <a
-  //       key={link.label}
-  //       href={link.link}
-  //       className={classes.link}
-  //       onClick={(event) =>{ event.preventDefault()}}
-  //     >
-  //       {link.label}
-  //     </a>
-  //   );
-  // });
 
   return (
-    <Header height={56} mb={120}>
-      <Container>
+    <Header height={56} mb={120} maw={'1100px'} m={'0 auto'}>
         <div className={classes.inner}>
-          {/* <MantineLogo size={28} /> */}
-          <Group spacing={5} className={classes.links}>
+          <Group spacing={5} className={classes.links} align='center' style={{height: '100%'}} pl={10} pr={10}>
             {items}
           </Group>
           <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-        </div>
-      </Container>
+        </div>  
     </Header>
   );
 }

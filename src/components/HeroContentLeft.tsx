@@ -72,10 +72,9 @@ function HeroContentLeft() {
         zIndex={0}
       />
       <Container className={classes.container}>
-        <Title className={classes.title}>A fully featured React components library</Title>
+        <Title className={classes.title}>Finally a place for all your tattoo needs.</Title>
         <Text className={classes.description} size="xl" mt="xl">
-          Build fully functional accessible web applications faster than ever – Mantine includes
-          more than 120 customizable components and hooks to cover you in any situation
+        We know it can be hard to find the right tattoo artist for you. Our mission is to make it easy for you to connect with artists you love.
         </Text>
 
         <Button variant="gradient" size="xl" radius="xl" className={classes.control}>

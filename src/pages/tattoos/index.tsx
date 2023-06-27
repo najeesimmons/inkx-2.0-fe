@@ -24,7 +24,7 @@ export default function Tattoos() {
 
     const { classes } = useStyles();
     const [tattoos, setTattoos] = useState([]);
-    const [tattoosIsLoading, setTattoosIsLoading] = useState(true);
+    const [tattoosIsLoading, setTattoosIsLoading] = useState<boolean>(true);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [page, setPage] = useState(1);
     
@@ -57,24 +57,25 @@ export default function Tattoos() {
         if (tattoosIsLoading) return <LoadingOverlay visible={tattoosIsLoading}/>
         
     return (
-    <>
-    <InfiniteScroll
-    dataLength={tattoos.length}
-    loader={<LoadingOverlay visible={tattoosIsLoading}/>}
-    hasMore={page < totalPages}
-    endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
-        </p>
-      }
-      next={() => setPage(page + 1)}
-    >
-    <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className={classes.myMasonryGrid}
-        columnClassName={classes.myMasonryGridColumn}
-    >
-    {fetchedTattoos}
-</Masonry>
-</InfiniteScroll>
-    </>)}
+            <>
+              <InfiniteScroll
+              dataLength={tattoos.length}
+              loader={<LoadingOverlay visible={tattoosIsLoading}/>}
+              hasMore={page < totalPages}
+              endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <Text>There are no more tattoos to view.</Text>
+                  </p>
+                }
+                next={() => setPage(page + 1)}
+              >
+              <Masonry
+                  breakpointCols={breakpointColumnsObj}
+                  className={classes.myMasonryGrid}
+                  columnClassName={classes.myMasonryGridColumn}
+              >
+                    {fetchedTattoos}
+               </Masonry>
+            </InfiniteScroll>
+            </>
+    )}

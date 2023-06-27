@@ -22,12 +22,33 @@ const useStyles = createStyles((theme) => ({
 
 export default function Tattoos() {
 
+    type Tattoo = {}
+  
     const { classes } = useStyles();
-    const [tattoos, setTattoos] = useState([]);
+    const [tattoos, setTattoos] = useState<{}[]>([]);
     const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
     const [isMore, setIsMore] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
+
+    const parseTattoos = (data: any) => {
+      return data.map((d:any) => {
+        return {
+          id: d?.data?.id,
+          description: d?.data?.description,
+          imageUrl: d?.data?.image?.url,
+          artist: {
+            _id: d?.data?.artist?.id,
+            name: d?.data?.artist?.name,
+            username: d?.data?.artist?.username,
+            artist_image: d?.data?.artist?.image_url,
+            artist_id: d?.data?.artist?.artist_id,
+          },
+          city: d?.data?.shop?.address?.city,
+          country: d?.data?.shop?.address?.country,
+        };
+      });
+    };
     
     const getTattoos = useCallback (
       async (page: number) => {
@@ -35,9 +56,10 @@ export default function Tattoos() {
         const response = await fetch(`https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=50&page=${page}`)
         const data = await response.json()
         const isMore = page !== data?.meta?.pagination?.total_pages;
+        const parsedTattoos= parseTattoos(data.data);
         return {
           isMore,
-          data: data.data,
+          data: parsedTattoos,
           error: false,
           nextPage: page + 1,
         };
@@ -61,8 +83,7 @@ export default function Tattoos() {
       setError(true);
       return;
     }
-
-    setTattoos((prev) => [...prev, ...data]);
+    setTattoos((prevTattoos) => [...prevTattoos, ...data]);
     setPage(nextPage);
     setIsMore(isMore);
   };
@@ -88,7 +109,7 @@ export default function Tattoos() {
    
     const fetchedTattoos = tattoos.map((tattoo: any) => {
         return (
-            <Image key={tattoo.data.id} src={tattoo.data.image.url} alt={tattoo.data.description} className={classes.myMasonryGridItems}/>)
+            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems}/>)
         })
 
         const breakpointColumnsObj = {

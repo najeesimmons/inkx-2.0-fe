@@ -6,11 +6,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const useStyles = createStyles((theme) => ({
     myMasonryGrid: {
       display: 'flex',
-      // marginLeft: '-10x',
+      marginLeft: '-10x',
       width: 'auto',
     },
     myMasonryGridColumn: {
-      // paddingLeft: '10px',
+      paddingLeft: '10px',
       backgroundClip: 'padding-box',
     },
     myMasonryGridItems: {

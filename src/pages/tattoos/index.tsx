@@ -1,4 +1,4 @@
-import { Image, LoadingOverlay, Text, createStyles} from "@mantine/core"
+import { Image, LoadingOverlay, Text, Title, createStyles} from "@mantine/core"
 import { useCallback, useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -119,10 +119,9 @@ export default function Tattoos() {
             500: 1
           };
 
-        if (tattoosLoading) return <LoadingOverlay visible={tattoosLoading}/>
-        
     return (
             <>
+              <Title order={2}>Find Tattoos</Title>
               <InfiniteScroll
               dataLength={tattoos.length}
               loader={<LoadingOverlay visible={tattoosLoading}/>}

@@ -119,7 +119,7 @@ export default function Artists() {
 
         return (
             <>
-              <Title>Find Artists</Title>
+              <Title order={2}>Find Artists</Title>
               <InfiniteScroll
                 dataLength={artists.length}
                 next={async () => await getMoreArtists(page)}

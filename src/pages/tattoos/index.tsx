@@ -6,17 +6,17 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const useStyles = createStyles((theme) => ({
     myMasonryGrid: {
       display: 'flex',
-      marginLeft: '-10x',
+      // marginLeft: '-10x',
       width: 'auto',
     },
     myMasonryGridColumn: {
-      paddingLeft: '10px',
+      // paddingLeft: '10px',
       backgroundClip: 'padding-box',
     },
     myMasonryGridItems: {
       borderRadius: '20px',
       display: 'block',
-      marginBottom: '5px',
+      margin: '10px',
     },
   }));
 
@@ -109,7 +109,7 @@ export default function Tattoos() {
    
     const fetchedTattoos = tattoos.map((tattoo: any) => {
         return (
-            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems}/>)
+            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems} />)
         })
 
         const breakpointColumnsObj = {

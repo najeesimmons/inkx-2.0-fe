@@ -1,6 +1,6 @@
 import { Card, Group, Stack, Text, Title } from "@mantine/core";
 
-export default function TattooModal () {
+export function TattooModal () {
   return (
     <>
       <Card>

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { Image, LoadingOverlay, SimpleGrid, Title, createStyles, Text } from "@mantine/core";
+import { Image, LoadingOverlay, SimpleGrid, Title, createStyles, Text, UnstyledButton } from "@mantine/core";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { modals } from "@mantine/modals";
+import{ TattooModal } from "@/components/modals/TattooModal";
 
 const useStyles = createStyles((theme) => ({
   artistImage: {
@@ -139,6 +141,7 @@ export default function Artists() {
                   ]}>
                 {artists.map((artist: any) => {
                   return (
+                    <UnstyledButton key={artist._id} onClick={() => modals.open({children: <TattooModal/>})}>
                         <Image
                           key={artist._id}
                           src={artist.imageUrl}
@@ -146,6 +149,7 @@ export default function Artists() {
                           height={250}
                           width={250}
                         />
+                    </UnstyledButton>    
                 );
                 })}
                 </SimpleGrid>

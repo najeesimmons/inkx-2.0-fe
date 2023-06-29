@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { modals } from '@mantine/modals';
-import TattooModal from "@/components/modals/TattooModal";
+import { TattooModal } from "@/components/modals/TattooModal";
 
 const useStyles = createStyles((theme) => ({
     myMasonryGrid: {
@@ -110,7 +110,7 @@ export default function Tattoos() {
   }, [getTattoos]);
 
   const openTattooModal = () => {
-    modals.open({ size: "lg", children: (<Text>Hello</Text>)})
+    modals.open({ size: "lg", children: (<TattooModal />)})
     console.log("tattoo modal, why you no open?")
   }
    

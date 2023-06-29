@@ -8,7 +8,7 @@ import { TattooModal } from "@/components/modals/TattooModal";
 const useStyles = createStyles((theme) => ({
     myMasonryGrid: {
       display: 'flex',
-      marginLeft: '-10x',
+      marginLeft: '-10px',
       width: 'auto',
     },
     myMasonryGridColumn: {
@@ -18,7 +18,7 @@ const useStyles = createStyles((theme) => ({
     myMasonryGridItems: {
       borderRadius: '5px',
       display: 'block',
-      margin: '10px',
+      margin: '5px',
     },
   }));
 

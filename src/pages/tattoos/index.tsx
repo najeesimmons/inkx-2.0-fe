@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
       backgroundClip: 'padding-box',
     },
     myMasonryGridItems: {
-      // borderRadius: '20px',
+      borderRadius: '5px',
       display: 'block',
       margin: '10px',
     },
@@ -117,7 +117,7 @@ export default function Tattoos() {
     const fetchedTattoos = tattoos.map((tattoo: any) => {
         return (
           <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
-            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems} />
+            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} classNames={{image: classes.myMasonryGridItems}} />
           </UnstyledButton>
     )})
 

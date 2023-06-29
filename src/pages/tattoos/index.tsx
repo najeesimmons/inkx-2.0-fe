@@ -1,7 +1,9 @@
-import { Image, LoadingOverlay, Text, Title, createStyles} from "@mantine/core"
+import { Image, LoadingOverlay, Text, Title, UnstyledButton, createStyles} from "@mantine/core"
 import { useCallback, useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { modals } from '@mantine/modals';
+import TattooModal from "@/components/modals/TattooModal";
 
 const useStyles = createStyles((theme) => ({
     myMasonryGrid: {
@@ -14,7 +16,7 @@ const useStyles = createStyles((theme) => ({
       backgroundClip: 'padding-box',
     },
     myMasonryGridItems: {
-      borderRadius: '20px',
+      // borderRadius: '20px',
       display: 'block',
       margin: '10px',
     },
@@ -106,11 +108,18 @@ export default function Tattoos() {
 
     fetchData();
   }, [getTattoos]);
+
+  const openTattooModal = () => {
+    modals.open({ size: "lg", children: (<Text>Hello</Text>)})
+    console.log("tattoo modal, why you no open?")
+  }
    
     const fetchedTattoos = tattoos.map((tattoo: any) => {
         return (
-            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems} />)
-        })
+          <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
+            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} className={classes.myMasonryGridItems} />
+          </UnstyledButton>
+    )})
 
         const breakpointColumnsObj = {
             default: 4,
@@ -122,24 +131,24 @@ export default function Tattoos() {
     return (
             <>
               <Title order={2}>Find Tattoos</Title>
-              <InfiniteScroll
-              dataLength={tattoos.length}
-              loader={<LoadingOverlay visible={tattoosLoading}/>}
-              hasMore={isMore}
-              endMessage={
-                  <p style={{ textAlign: 'center' }}>
-                    <Text>There are no more tattoos to view.</Text>
-                  </p>
-                }
-                next={async () => await getMoreTattoos(page)}
-              >
-              <Masonry
-                  breakpointCols={breakpointColumnsObj}
-                  className={classes.myMasonryGrid}
-                  columnClassName={classes.myMasonryGridColumn}
-              >
-                    {fetchedTattoos}
-               </Masonry>
-            </InfiniteScroll>
+                <InfiniteScroll
+                dataLength={tattoos.length}
+                loader={<LoadingOverlay visible={tattoosLoading}/>}
+                hasMore={isMore}
+                endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                      <Text>There are no more tattoos to view.</Text>
+                    </p>
+                  }
+                  next={async () => await getMoreTattoos(page)}
+                >
+                  <Masonry
+                      breakpointCols={breakpointColumnsObj}
+                      className={classes.myMasonryGrid}
+                      columnClassName={classes.myMasonryGridColumn}
+                      >
+                      {fetchedTattoos}
+                  </Masonry>
+              </InfiniteScroll>
             </>
     )}

@@ -13,6 +13,7 @@
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.14",
     "@mantine/hooks": "^6.0.14",
+    "@mantine/modals": "^6.0.15",
     "@mantine/next": "^6.0.14",
     "@tabler/icons": "^2.23.0",
     "@types/node": "20.3.1",

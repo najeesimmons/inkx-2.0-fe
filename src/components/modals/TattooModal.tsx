@@ -2,6 +2,7 @@ import { Card, Group, Stack, Text, Title } from "@mantine/core";
 
 export default function TattooModal () {
   return (
+    <>
       <Card>
         <Group>
         <Card.Section>
@@ -12,5 +13,6 @@ export default function TattooModal () {
        </Stack>
         </Group>
       </Card>
+      </>
   );
 }

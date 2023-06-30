@@ -151,7 +151,7 @@ export default function Artists() {
             return (
               <UnstyledButton
                 key={artist._id}
-                onClick={() => modals.open({ children: <TattooModal /> })}
+                onClick={() => console.log("clicked")}
               >
                 <Image
                   key={artist._id}

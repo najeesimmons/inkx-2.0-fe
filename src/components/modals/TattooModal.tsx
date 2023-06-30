@@ -1,8 +1,18 @@
-import { Card, Group, Stack, Text, Title } from "@mantine/core";
+import { Card, Group, Modal, Stack, Text, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
-export function TattooModal() {
+interface TattooModalProps {
+  opened: boolean;
+  onClose(): void;
+}
+
+export function TattooModal({ opened, onClose }: TattooModalProps) {
   return (
-    <>
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      styles={{ root: { margin: "0 auto" } }}
+    >
       <Card>
         <Group>
           <Card.Section></Card.Section>
@@ -12,6 +22,6 @@ export function TattooModal() {
           </Stack>
         </Group>
       </Card>
-    </>
+    </Modal>
   );
 }

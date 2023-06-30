@@ -115,11 +115,11 @@ export default function Tattoos() {
   }, [getTattoos]);
 
   const openTattooModal = () => {
-    modals.open({ size: "lg", children: <TattooModal /> });
-    console.log("tattoo modal, why you no open?");
+    modals.open({ title: "hello", size: "lg", children: <TattooModal /> });
+    console.log("tattoo modal, Why won't you  open?");
   };
 
-  const fetchedTattoos = tattoos.map((tattoo: any) => {
+  const tattooGridItems = tattoos.map((tattoo: any) => {
     return (
       <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
         <Image
@@ -141,7 +141,6 @@ export default function Tattoos() {
 
   return (
     <>
-      <Title order={2}>Find Tattoos</Title>
       <InfiniteScroll
         dataLength={tattoos.length}
         loader={<LoadingOverlay visible={tattoosLoading} />}
@@ -158,7 +157,7 @@ export default function Tattoos() {
           className={classes.myMasonryGrid}
           columnClassName={classes.myMasonryGridColumn}
         >
-          {fetchedTattoos}
+          {tattooGridItems}
         </Masonry>
       </InfiniteScroll>
     </>

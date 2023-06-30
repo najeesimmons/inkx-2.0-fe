@@ -1,81 +1,86 @@
-import { Image, LoadingOverlay, Text, Title, UnstyledButton, createStyles} from "@mantine/core"
+import {
+  Image,
+  LoadingOverlay,
+  Text,
+  Title,
+  UnstyledButton,
+  createStyles,
+} from "@mantine/core";
 import { useCallback, useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { modals } from '@mantine/modals';
+import { modals } from "@mantine/modals";
 import { TattooModal } from "@/components/modals/TattooModal";
 
 const useStyles = createStyles((theme) => ({
-    myMasonryGrid: {
-      display: 'flex',
-      marginLeft: '-10px',
-      width: 'auto',
-    },
-    myMasonryGridColumn: {
-      paddingLeft: '10px',
-      backgroundClip: 'padding-box',
-    },
-    myMasonryGridItems: {
-      borderRadius: '5px',
-      display: 'block',
-      margin: '5px',
-    },
-  }));
+  myMasonryGrid: {
+    display: "flex",
+    marginLeft: "-10px",
+    width: "auto",
+  },
+  myMasonryGridColumn: {
+    paddingLeft: "10px",
+    backgroundClip: "padding-box",
+  },
+  myMasonryGridItems: {
+    borderRadius: "5px",
+    display: "block",
+    margin: "5px",
+  },
+}));
 
 export default function Tattoos() {
+  type Tattoo = {};
 
-    type Tattoo = {}
-  
-    const { classes } = useStyles();
-    const [tattoos, setTattoos] = useState<{}[]>([]);
-    const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
-    const [page, setPage] = useState<number>(1);
-    const [isMore, setIsMore] = useState<boolean>(true);
-    const [error, setError] = useState<boolean>(false);
+  const { classes } = useStyles();
+  const [tattoos, setTattoos] = useState<{}[]>([]);
+  const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
+  const [isMore, setIsMore] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
-    const parseTattoos = (data: any) => {
-      return data.map((d:any) => {
-        return {
-          id: d?.data?.id,
-          description: d?.data?.description,
-          imageUrl: d?.data?.image?.url,
-          artist: {
-            _id: d?.data?.artist?.id,
-            name: d?.data?.artist?.name,
-            username: d?.data?.artist?.username,
-            artist_image: d?.data?.artist?.image_url,
-            artist_id: d?.data?.artist?.artist_id,
-          },
-          city: d?.data?.shop?.address?.city,
-          country: d?.data?.shop?.address?.country,
-        };
-      });
-    };
-    
-    const getTattoos = useCallback (
-      async (page: number) => {
-      try {
-        const response = await fetch(`https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=50&page=${page}`)
-        const data = await response.json()
-        const isMore = page !== data?.meta?.pagination?.total_pages;
-        const parsedTattoos= parseTattoos(data.data);
-        return {
-          isMore,
-          data: parsedTattoos,
-          error: false,
-          nextPage: page + 1,
-        };
-      } catch (error) {
-        return {
-          isMore: false,
-          data: [],
-          error: true,
-          nextPage: page + 1,
-        };
-      }
-    },
-    []
-  );
+  const parseTattoos = (data: any) => {
+    return data.map((d: any) => {
+      return {
+        id: d?.data?.id,
+        description: d?.data?.description,
+        imageUrl: d?.data?.image?.url,
+        artist: {
+          _id: d?.data?.artist?.id,
+          name: d?.data?.artist?.name,
+          username: d?.data?.artist?.username,
+          artist_image: d?.data?.artist?.image_url,
+          artist_id: d?.data?.artist?.artist_id,
+        },
+        city: d?.data?.shop?.address?.city,
+        country: d?.data?.shop?.address?.country,
+      };
+    });
+  };
+
+  const getTattoos = useCallback(async (page: number) => {
+    try {
+      const response = await fetch(
+        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=50&page=${page}`
+      );
+      const data = await response.json();
+      const isMore = page !== data?.meta?.pagination?.total_pages;
+      const parsedTattoos = parseTattoos(data.data);
+      return {
+        isMore,
+        data: parsedTattoos,
+        error: false,
+        nextPage: page + 1,
+      };
+    } catch (error) {
+      return {
+        isMore: false,
+        data: [],
+        error: true,
+        nextPage: page + 1,
+      };
+    }
+  }, []);
 
   const getMoreTattoos = async (page: number) => {
     const { isMore, data, error, nextPage } = await getTattoos(page);
@@ -110,45 +115,52 @@ export default function Tattoos() {
   }, [getTattoos]);
 
   const openTattooModal = () => {
-    modals.open({ size: "lg", children: (<TattooModal />)})
-    console.log("tattoo modal, why you no open?")
-  }
-   
-    const fetchedTattoos = tattoos.map((tattoo: any) => {
-        return (
-          <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
-            <Image key={tattoo.id} src={tattoo.imageUrl} alt={tattoo.description} classNames={{image: classes.myMasonryGridItems}} />
-          </UnstyledButton>
-    )})
+    modals.open({ size: "lg", children: <TattooModal /> });
+    console.log("tattoo modal, why you no open?");
+  };
 
-        const breakpointColumnsObj = {
-            default: 4,
-            1100: 3,
-            700: 2,
-            500: 1
-          };
-
+  const fetchedTattoos = tattoos.map((tattoo: any) => {
     return (
-            <>
-              <Title order={2}>Find Tattoos</Title>
-                <InfiniteScroll
-                dataLength={tattoos.length}
-                loader={<LoadingOverlay visible={tattoosLoading}/>}
-                hasMore={isMore}
-                endMessage={
-                    <p style={{ textAlign: 'center' }}>
-                      <Text>There are no more tattoos to view.</Text>
-                    </p>
-                  }
-                  next={async () => await getMoreTattoos(page)}
-                >
-                  <Masonry
-                      breakpointCols={breakpointColumnsObj}
-                      className={classes.myMasonryGrid}
-                      columnClassName={classes.myMasonryGridColumn}
-                      >
-                      {fetchedTattoos}
-                  </Masonry>
-              </InfiniteScroll>
-            </>
-    )}
+      <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
+        <Image
+          key={tattoo.id}
+          src={tattoo.imageUrl}
+          alt={tattoo.description}
+          classNames={{ image: classes.myMasonryGridItems }}
+        />
+      </UnstyledButton>
+    );
+  });
+
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
+
+  return (
+    <>
+      <Title order={2}>Find Tattoos</Title>
+      <InfiniteScroll
+        dataLength={tattoos.length}
+        loader={<LoadingOverlay visible={tattoosLoading} />}
+        hasMore={isMore}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <Text>There are no more tattoos to view.</Text>
+          </p>
+        }
+        next={async () => await getMoreTattoos(page)}
+      >
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className={classes.myMasonryGrid}
+          columnClassName={classes.myMasonryGridColumn}
+        >
+          {fetchedTattoos}
+        </Masonry>
+      </InfiniteScroll>
+    </>
+  );
+}

@@ -2,15 +2,14 @@ import {
   Image,
   LoadingOverlay,
   Text,
-  Title,
   UnstyledButton,
   createStyles,
 } from "@mantine/core";
 import { useCallback, useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { modals } from "@mantine/modals";
 import { TattooModal } from "@/components/modals/TattooModal";
+import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   myMasonryGrid: {
@@ -38,6 +37,8 @@ export default function Tattoos() {
   const [page, setPage] = useState<number>(1);
   const [isMore, setIsMore] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+
+  const [opened, { open, close }] = useDisclosure(false);
 
   const parseTattoos = (data: any) => {
     return data.map((d: any) => {
@@ -114,19 +115,20 @@ export default function Tattoos() {
     fetchData();
   }, [getTattoos]);
 
-  const openTattooModal = () => {
-    modals.open({ title: "hello", size: "lg", children: <TattooModal /> });
-    console.log("tattoo modal, Why won't you  open?");
-  };
+  // const openTattooModal = () => {
+  //   modals.open({ title: "hello", size: "lg", children: <TattooModal /> });
+  //   console.log("tattoo modal, Why won't you  open?");
+  // };
 
   const tattooGridItems = tattoos.map((tattoo: any) => {
     return (
-      <UnstyledButton key={tattoo.id} onClick={openTattooModal}>
+      <UnstyledButton key={tattoo.id} onClick={open}>
         <Image
           key={tattoo.id}
           src={tattoo.imageUrl}
           alt={tattoo.description}
           classNames={{ image: classes.myMasonryGridItems }}
+          width={250}
         />
       </UnstyledButton>
     );
@@ -141,6 +143,7 @@ export default function Tattoos() {
 
   return (
     <>
+      <TattooModal onClose={close} opened={opened} />
       <InfiniteScroll
         dataLength={tattoos.length}
         loader={<LoadingOverlay visible={tattoosLoading} />}

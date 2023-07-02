@@ -1,12 +1,14 @@
-import { Card, Group, Modal, Stack, Text, Title } from "@mantine/core";
+import { Card, Group, Modal, Stack, Text, Title, Image } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { Carousel } from "@mantine/carousel";
 
 interface TattooModalProps {
   opened: boolean;
   onClose(): void;
+  tattoos: {}[];
 }
 
-export function TattooModal({ opened, onClose }: TattooModalProps) {
+export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
   return (
     <Modal
       opened={opened}
@@ -15,12 +17,13 @@ export function TattooModal({ opened, onClose }: TattooModalProps) {
     >
       <Card>
         <Group>
-          <Card.Section></Card.Section>
+          <Card.Section>{/* carousel of tattoos here */}</Card.Section>
           <Stack>
             <Title>Tattoo Title</Title>
             <Text>Artist Name</Text>
           </Stack>
         </Group>
+        x
       </Card>
     </Modal>
   );

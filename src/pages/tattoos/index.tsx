@@ -138,7 +138,7 @@ export default function Tattoos() {
 
   return (
     <>
-      <TattooModal onClose={close} opened={opened} />
+      <TattooModal onClose={close} opened={opened} tattoos={tattoos} />
       <InfiniteScroll
         dataLength={tattoos.length}
         loader={<LoadingOverlay visible={tattoosLoading} />}

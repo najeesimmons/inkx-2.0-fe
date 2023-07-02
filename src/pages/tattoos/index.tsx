@@ -115,11 +115,6 @@ export default function Tattoos() {
     fetchData();
   }, [getTattoos]);
 
-  // const openTattooModal = () => {
-  //   modals.open({ title: "hello", size: "lg", children: <TattooModal /> });
-  //   console.log("tattoo modal, Why won't you  open?");
-  // };
-
   const tattooGridItems = tattoos.map((tattoo: any) => {
     return (
       <UnstyledButton key={tattoo.id} onClick={open}>

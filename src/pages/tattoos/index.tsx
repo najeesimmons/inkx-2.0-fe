@@ -30,7 +30,6 @@ const useStyles = createStyles((theme) => ({
 
 export default function Tattoos() {
   type Tattoo = {};
-
   const { classes } = useStyles();
   const [tattoos, setTattoos] = useState<{}[]>([]);
   const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
@@ -62,7 +61,7 @@ export default function Tattoos() {
   const getTattoos = useCallback(async (page: number) => {
     try {
       const response = await fetch(
-        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=50&page=${page}`
+        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=5&page=${page}`
       );
       const data = await response.json();
       const isMore = page !== data?.meta?.pagination?.total_pages;
@@ -84,6 +83,7 @@ export default function Tattoos() {
   }, []);
 
   const getMoreTattoos = async (page: number) => {
+    console.log("getMoreTattoos");
     const { isMore, data, error, nextPage } = await getTattoos(page);
 
     if (error) {
@@ -138,7 +138,18 @@ export default function Tattoos() {
 
   return (
     <>
-      <TattooModal onClose={close} opened={opened} tattoos={tattoos} />
+      <TattooModal
+        onClose={close}
+        opened={opened}
+        tattoos={tattoos}
+        setTattoos={setTattoos}
+        tattoosLoading={tattoosLoading}
+        setTattoosLoading={setTattoosLoading}
+        isMore={isMore}
+        setIsMore={setIsMore}
+        getMoreTattoos={getMoreTattoos}
+        page={page}
+      />
       <InfiniteScroll
         dataLength={tattoos.length}
         loader={<LoadingOverlay visible={tattoosLoading} />}

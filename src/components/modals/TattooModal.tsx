@@ -24,6 +24,7 @@ interface TattooModalProps {
   setIsMore: Dispatch<SetStateAction<boolean>>;
   getMoreTattoos(page: number): Promise<void>;
   page: number;
+  limit: number;
 }
 
 export function TattooModal({
@@ -37,6 +38,7 @@ export function TattooModal({
   setIsMore,
   getMoreTattoos,
   page,
+  limit,
 }: TattooModalProps) {
   const [currentTattoo, setCurrentTattoo] = useState<{}>({});
 
@@ -70,9 +72,10 @@ export function TattooModal({
       <Carousel
         align={"center"}
         onSlideChange={async (index: number) => {
-          if (index === tattoos.length - 1)
+          if (index % limit === 0 && index !== 0) {
             console.log("calling getMoreTattoos from TattooModal");
-          await getMoreTattoos(page);
+            await getMoreTattoos(page);
+          }
         }}
       >
         {carouselItems}

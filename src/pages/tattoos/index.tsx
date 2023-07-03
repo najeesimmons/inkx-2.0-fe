@@ -36,6 +36,7 @@ export default function Tattoos() {
   const [page, setPage] = useState<number>(1);
   const [isMore, setIsMore] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+  const [limit, setLimit] = useState(5);
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -61,7 +62,7 @@ export default function Tattoos() {
   const getTattoos = useCallback(async (page: number) => {
     try {
       const response = await fetch(
-        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=5&page=${page}`
+        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&${limit}=5&page=${page}`
       );
       const data = await response.json();
       const isMore = page !== data?.meta?.pagination?.total_pages;

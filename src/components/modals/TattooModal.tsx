@@ -7,23 +7,43 @@ import {
   Title,
   Image,
   rem,
+  LoadingOverlay,
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface TattooModalProps {
   opened: boolean;
   onClose(): void;
   tattoos: {}[];
+  setTattoos: Dispatch<SetStateAction<{}[]>>;
+  tattoosLoading: boolean;
+  setTattoosLoading: Dispatch<SetStateAction<boolean>>;
+  isMore: boolean;
+  setIsMore: Dispatch<SetStateAction<boolean>>;
+  getMoreTattoos(page: number): Promise<void>;
+  page: number;
 }
 
-export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
+export function TattooModal({
+  opened,
+  onClose,
+  tattoos,
+  setTattoos,
+  tattoosLoading,
+  setTattoosLoading,
+  isMore,
+  setIsMore,
+  getMoreTattoos,
+  page,
+}: TattooModalProps) {
   const [currentTattoo, setCurrentTattoo] = useState<{}>({});
 
   const carouselItems = tattoos.map((tattoo: any) => (
     <Carousel.Slide key={tattoo?.id}>
       <Card>
-        <Group position="center">
+        <Group>
           <Card.Section>
             <Image
               src={tattoo?.imageUrl}
@@ -33,7 +53,6 @@ export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
             />
           </Card.Section>
           <Stack>
-            <Title order={3}>{tattoo.description}</Title>
             <Title order={4}>{tattoo.artist.name}</Title>
           </Stack>
         </Group>
@@ -48,7 +67,16 @@ export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
       styles={{ root: { margin: "0 auto" } }}
       fullScreen
     >
-      <Carousel>{carouselItems}</Carousel>
+      <Carousel
+        align={"center"}
+        onSlideChange={async (index: number) => {
+          if (index === tattoos.length - 1)
+            console.log("getting more tattoos from TattooModal");
+          await getMoreTattoos(page);
+        }}
+      >
+        {carouselItems}
+      </Carousel>
     </Modal>
   );
 }

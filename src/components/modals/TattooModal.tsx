@@ -71,7 +71,7 @@ export function TattooModal({
         align={"center"}
         onSlideChange={async (index: number) => {
           if (index === tattoos.length - 1)
-            console.log("getting more tattoos from TattooModal");
+            console.log("calling getMoreTattoos from TattooModal");
           await getMoreTattoos(page);
         }}
       >

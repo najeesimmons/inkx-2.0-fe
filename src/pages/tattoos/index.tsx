@@ -29,7 +29,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Tattoos() {
-  type Tattoo = {};
   const { classes } = useStyles();
   const [tattoos, setTattoos] = useState<{}[]>([]);
   const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
@@ -59,32 +58,34 @@ export default function Tattoos() {
     });
   };
 
-  const getTattoos = useCallback(async (page: number) => {
-    try {
-      const response = await fetch(
-        `https://backend-api.tattoodo.com/api/v2/feeds/explore?&${limit}=5&page=${page}`
-      );
-      const data = await response.json();
-      const isMore = page !== data?.meta?.pagination?.total_pages;
-      const parsedTattoos = parseTattoos(data.data);
-      return {
-        isMore,
-        data: parsedTattoos,
-        error: false,
-        nextPage: page + 1,
-      };
-    } catch (error) {
-      return {
-        isMore: false,
-        data: [],
-        error: true,
-        nextPage: page + 1,
-      };
-    }
-  }, []);
+  const getTattoos = useCallback(
+    async (page: number) => {
+      try {
+        const response = await fetch(
+          `https://backend-api.tattoodo.com/api/v2/feeds/explore?&limit=${limit}&page=${page}`
+        );
+        const data = await response.json();
+        const isMore = page !== data?.meta?.pagination?.total_pages;
+        const parsedTattoos = parseTattoos(data.data);
+        return {
+          isMore,
+          data: parsedTattoos,
+          error: false,
+          nextPage: page + 1,
+        };
+      } catch (error) {
+        return {
+          isMore: false,
+          data: [],
+          error: true,
+          nextPage: page + 1,
+        };
+      }
+    },
+    [limit]
+  );
 
   const getMoreTattoos = async (page: number) => {
-    console.log("getMoreTattoos");
     const { isMore, data, error, nextPage } = await getTattoos(page);
 
     if (error) {
@@ -143,13 +144,10 @@ export default function Tattoos() {
         onClose={close}
         opened={opened}
         tattoos={tattoos}
-        setTattoos={setTattoos}
-        tattoosLoading={tattoosLoading}
-        setTattoosLoading={setTattoosLoading}
-        isMore={isMore}
-        setIsMore={setIsMore}
         getMoreTattoos={getMoreTattoos}
         page={page}
+        setPage={setPage}
+        limit={limit}
       />
       <InfiniteScroll
         dataLength={tattoos.length}

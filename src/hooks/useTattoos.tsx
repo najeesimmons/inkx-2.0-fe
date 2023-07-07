@@ -61,4 +61,4 @@ const useTattoos = async (page: number, limit: number) => {
   }
 };
 
-export { useTattoos };
+export default useTattoos;

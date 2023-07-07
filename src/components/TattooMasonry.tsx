@@ -5,7 +5,6 @@ import {
   createStyles,
   Image,
 } from "@mantine/core";
-import { error } from "console";
 import { Dispatch, SetStateAction } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Masonry from "react-masonry-css";

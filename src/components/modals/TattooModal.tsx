@@ -46,9 +46,8 @@ export function TattooModal({
   const onSlideChange = async (index: number) => {
     const indexMarker = (index + 1) % limit;
     if (indexMarker === 0) {
-      console.log("calling getMoreTattoos from TattooModal");
+      console.log("page:", page);
       await getMoreTattoos(page + 1);
-      setPage((prevPage) => prevPage + 1);
     }
   };
   return (

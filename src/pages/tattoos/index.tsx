@@ -10,6 +10,7 @@ import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { TattooModal } from "@/components/modals/TattooModal";
 import { useDisclosure } from "@mantine/hooks";
+import { Console } from "console";
 
 const useStyles = createStyles((theme) => ({
   myMasonryGrid: {
@@ -36,7 +37,9 @@ export default function Tattoos() {
   const [isMore, setIsMore] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [limit, setLimit] = useState(5);
-
+  // TODO: setIsMore, setError, tattoosLoading, and tattoos will become obsolete ater implemetntation of useTattoos hook, only "page" and "limit" will be needed
+  // TODO: call useTattoos hook here, pass in the "page", destructure out vars, in useTattoos, also reutrn tattoos array
+  // TODO: index and TattooModal need to share a PARENT that manages the state of the tattoos array and "page"
   const [opened, { open, close }] = useDisclosure(false);
 
   const parseTattoos = (data: any) => {
@@ -58,6 +61,7 @@ export default function Tattoos() {
     });
   };
 
+  // TODO: Refactor this to use the useTattoos hook, return same variables AND loading state (isLoading)
   const getTattoos = useCallback(
     async (page: number) => {
       try {
@@ -85,9 +89,10 @@ export default function Tattoos() {
     [limit]
   );
 
+  // TODO: can get rid of this once useTattoos hook is implemented
   const getMoreTattoos = async (page: number) => {
     const { isMore, data, error, nextPage } = await getTattoos(page);
-
+    console.log("next page:", nextPage);
     if (error) {
       console.error("An error occurred");
       setError(true);
@@ -98,10 +103,11 @@ export default function Tattoos() {
     setIsMore(isMore);
   };
 
+  // TODO: After creating useTattoos hook, remove this useEffect
   useEffect(() => {
     async function fetchData() {
       setTattoosLoading(true);
-      const { isMore, data, error, nextPage } = await getTattoos(1);
+      const { isMore, data, error, nextPage } = await getTattoos(page);
 
       if (error) {
         console.error("An error occurred");
@@ -149,6 +155,7 @@ export default function Tattoos() {
         setPage={setPage}
         limit={limit}
       />
+      {/* // TODO: extract infinite scroll into its own component */}
       <InfiniteScroll
         dataLength={tattoos.length}
         loader={<LoadingOverlay visible={tattoosLoading} />}
@@ -158,7 +165,8 @@ export default function Tattoos() {
             <Text>There are no more tattoos to view.</Text>
           </p>
         }
-        next={async () => await getMoreTattoos(page)}
+        // next={async () => await getMoreTattoos(page)}
+        next={() => setPage((prevPage) => prevPage + 1)}
       >
         <Masonry
           breakpointCols={breakpointColumnsObj}

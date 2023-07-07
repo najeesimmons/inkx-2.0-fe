@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
 
 interface TattooModalProps {
   tattoos: {}[];
-  page: number;
+  nextPage: number;
   setPage: Dispatch<SetStateAction<number>>;
   isMore: boolean;
   tattoosLoading: boolean;
@@ -41,7 +41,7 @@ export default function TattooMasonry({
   isMore,
   tattoos,
   tattoosLoading,
-  page,
+  nextPage,
   open,
   error,
 }: TattooModalProps) {
@@ -80,7 +80,7 @@ export default function TattooMasonry({
           <Text>There are no more tattoos to view.</Text>
         </p>
       }
-      next={() => setPage((prevPage) => prevPage + 1)}
+      next={() => setPage(nextPage + 1)}
     >
       <Masonry
         breakpointCols={breakpointColumnsObj}

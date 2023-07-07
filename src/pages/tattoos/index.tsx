@@ -2,43 +2,43 @@ import { LoadingOverlay, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { TattooModal } from "@/components/modals/TattooModal";
 import { useDisclosure } from "@mantine/hooks";
-import useTattoos from "@/hooks/useTattoos";
+import { useTattoos } from "@/hooks/useTattoos";
 import TattooMasonry from "@/components/TattooMasonry";
 
-export default async function Tattoos() {
+export default function Tattoos() {
   const [opened, { open, close }] = useDisclosure(false);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState(5);
 
-  // TODO: need to make useTattoos call async. I can't make the react function an async fn
-  const { isMore, tattoos, tattoosLoading, error, nextPage } = await useTattoos(
-    page,
-    limit
-  );
+  const { tattoos, isMore, error, loading, nextPage, fetchData } = useTattoos();
+  console.log({ tattoos, isMore, error, loading, nextPage });
 
-  if (tattoosLoading) return <LoadingOverlay visible={tattoosLoading} />;
-  if (error) return <Text>Error</Text>;
+  useEffect(() => {
+    fetchData(1, limit);
+  }, []);
 
-  console.log("tattoos:", tattoos);
+  // if (loading) return <LoadingOverlay visible={loading} />;
+  // if (error) return <Text>Error</Text>;
+
   return (
     <>
-      <TattooMasonry
+      {/* <TattooMasonry
         tattoos={tattoos}
-        tattoosLoading={tattoosLoading}
+        tattoosLoading={loading}
         isMore={isMore}
-        page={page}
+        currentPage={currentPage}
         setPage={setPage}
         open={open}
         error={error}
-      />
-      {/* <TattooModal
-        tattoos={tattoos}
-        tattoosLoading={tattoosLoading}
-        onClose={close}
-        opened={opened}
-        page={page}
-        setPage={setPage}
       /> */}
+      {/* <TattooModal
+    tattoos={tattoos}
+    tattoosLoading={tattoosLoading}
+    onClose={close}
+    opened={opened}
+    page={page}
+    setPage={setPage}
+  /> */}
     </>
   );
 }

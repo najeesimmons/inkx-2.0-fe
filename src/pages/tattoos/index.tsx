@@ -31,35 +31,14 @@ const useStyles = createStyles((theme) => ({
 
 export default function Tattoos() {
   const { classes } = useStyles();
-  const [tattoos, setTattoos] = useState<{}[]>([]);
-  const [tattoosLoading, setTattoosLoading] = useState<boolean>(true);
+
   const [page, setPage] = useState<number>(1);
-  const [isMore, setIsMore] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+
   const [limit, setLimit] = useState(5);
   // TODO: setIsMore, setError, tattoosLoading, and tattoos will become obsolete ater implemetntation of useTattoos hook, only "page" and "limit" will be needed
   // TODO: call useTattoos hook here, pass in the "page", destructure out vars, in useTattoos, also reutrn tattoos array
   // TODO: index and TattooModal need to share a PARENT that manages the state of the tattoos array and "page"
   const [opened, { open, close }] = useDisclosure(false);
-
-  const parseTattoos = (data: any) => {
-    return data.map((d: any) => {
-      return {
-        id: d?.data?.id,
-        description: d?.data?.description,
-        imageUrl: d?.data?.image?.url,
-        artist: {
-          _id: d?.data?.artist?.id,
-          name: d?.data?.artist?.name,
-          username: d?.data?.artist?.username,
-          artist_image: d?.data?.artist?.image_url,
-          artist_id: d?.data?.artist?.artist_id,
-        },
-        city: d?.data?.shop?.address?.city,
-        country: d?.data?.shop?.address?.country,
-      };
-    });
-  };
 
   // TODO: Refactor this to use the useTattoos hook, return same variables AND loading state (isLoading)
   const getTattoos = useCallback(
@@ -88,20 +67,6 @@ export default function Tattoos() {
     },
     [limit]
   );
-
-  // TODO: can get rid of this once useTattoos hook is implemented
-  const getMoreTattoos = async (page: number) => {
-    const { isMore, data, error, nextPage } = await getTattoos(page);
-    console.log("next page:", nextPage);
-    if (error) {
-      console.error("An error occurred");
-      setError(true);
-      return;
-    }
-    setTattoos((prevTattoos) => [...prevTattoos, ...data]);
-    setPage(nextPage);
-    setIsMore(isMore);
-  };
 
   // TODO: After creating useTattoos hook, remove this useEffect
   useEffect(() => {
@@ -137,13 +102,6 @@ export default function Tattoos() {
     );
   });
 
-  const breakpointColumnsObj = {
-    default: 4,
-    1100: 3,
-    700: 2,
-    500: 1,
-  };
-
   return (
     <>
       <TattooModal
@@ -155,27 +113,6 @@ export default function Tattoos() {
         setPage={setPage}
         limit={limit}
       />
-      {/* // TODO: extract infinite scroll into its own component */}
-      <InfiniteScroll
-        dataLength={tattoos.length}
-        loader={<LoadingOverlay visible={tattoosLoading} />}
-        hasMore={isMore}
-        endMessage={
-          <p style={{ textAlign: "center" }}>
-            <Text>There are no more tattoos to view.</Text>
-          </p>
-        }
-        // next={async () => await getMoreTattoos(page)}
-        next={() => setPage((prevPage) => prevPage + 1)}
-      >
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className={classes.myMasonryGrid}
-          columnClassName={classes.myMasonryGridColumn}
-        >
-          {tattooGridItems}
-        </Masonry>
-      </InfiniteScroll>
     </>
   );
 }

@@ -29,6 +29,7 @@ export default async function Tattoos() {
         page={page}
         setPage={setPage}
         open={open}
+        error={error}
       />
       {/* <TattooModal
         tattoos={tattoos}

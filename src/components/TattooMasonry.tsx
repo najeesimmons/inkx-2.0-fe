@@ -1,5 +1,3 @@
-import { useTattoos } from "@/hooks/useTattoos";
-import tattoos from "@/pages/tattoos";
 import {
   LoadingOverlay,
   Text,
@@ -7,6 +5,7 @@ import {
   createStyles,
   Image,
 } from "@mantine/core";
+import { error } from "console";
 import { Dispatch, SetStateAction } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Masonry from "react-masonry-css";
@@ -34,6 +33,7 @@ interface TattooModalProps {
   setPage: Dispatch<SetStateAction<number>>;
   isMore: boolean;
   tattoosLoading: boolean;
+  error: boolean;
   open: () => void;
 }
 
@@ -44,6 +44,7 @@ export default function TattooMasonry({
   tattoosLoading,
   page,
   open,
+  error,
 }: TattooModalProps) {
   const { classes } = useStyles();
   const breakpointColumnsObj = {
@@ -66,6 +67,9 @@ export default function TattooMasonry({
       </UnstyledButton>
     );
   });
+
+  if (tattoosLoading) return <LoadingOverlay visible={tattoosLoading} />;
+  if (error) return <Text>Error</Text>;
 
   return (
     <InfiniteScroll

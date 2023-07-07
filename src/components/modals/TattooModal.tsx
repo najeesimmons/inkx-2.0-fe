@@ -12,8 +12,6 @@ interface TattooModalProps {
 }
 
 export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
-  const [currentTattoo, setCurrentTattoo] = useState<{}>({});
-
   const carouselItems = tattoos.map((tattoo: any) => (
     <Carousel.Slide key={tattoo?.id}>
       <Card>

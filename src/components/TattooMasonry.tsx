@@ -7,6 +7,7 @@ import {
   createStyles,
   Image,
 } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Masonry from "react-masonry-css";
 
@@ -27,7 +28,23 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function TattooMasonry() {
+interface TattooModalProps {
+  tattoos: {}[];
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  isMore: boolean;
+  tattoosLoading: boolean;
+  open: () => void;
+}
+
+export default function TattooMasonry({
+  setPage,
+  isMore,
+  tattoos,
+  tattoosLoading,
+  page,
+  open,
+}: TattooModalProps) {
   const { classes } = useStyles();
   const breakpointColumnsObj = {
     default: 4,

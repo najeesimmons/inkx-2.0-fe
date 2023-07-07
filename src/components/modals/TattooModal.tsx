@@ -6,21 +6,12 @@ interface TattooModalProps {
   opened: boolean;
   onClose(): void;
   tattoos: {}[];
-  getMoreTattoos(page: number): Promise<void>;
+  tattoosLoading: boolean;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
-  limit: number;
 }
 
-export function TattooModal({
-  opened,
-  onClose,
-  tattoos,
-  getMoreTattoos,
-  page,
-  setPage,
-  limit,
-}: TattooModalProps) {
+export function TattooModal({ opened, onClose, tattoos }: TattooModalProps) {
   const [currentTattoo, setCurrentTattoo] = useState<{}>({});
 
   const carouselItems = tattoos.map((tattoo: any) => (
@@ -43,13 +34,14 @@ export function TattooModal({
     </Carousel.Slide>
   ));
 
-  const onSlideChange = async (index: number) => {
-    const indexMarker = (index + 1) % limit;
-    if (indexMarker === 0) {
-      console.log("page:", page);
-      await getMoreTattoos(page + 1);
-    }
-  };
+  // const onSlideChange = async (index: number) => {
+  //   const indexMarker = (index + 1) % limit;
+  //   if (indexMarker === 0) {
+  //     console.log("page:", page);
+  //     await getMoreTattoos(page + 1);
+  //   }
+  // };
+
   return (
     <Modal
       opened={opened}
@@ -59,35 +51,7 @@ export function TattooModal({
     >
       <Carousel
         align={"center"}
-        // onSlideChange={async (index: number) => {
-        //   const indexMarker = (index + 1) % limit;
-        //   if (indexMarker === 0) {
-        //     console.log("calling getMoreTattoos from TattooModal");
-        //     // TODO: Why getMoreTattoos fetching the same set over and over?
-        //     await getMoreTattoos(page);
-        //     setPage(page + 1);
-        //   }
-        // }}
-        ////
-        // onSlideChange={async (index: number) => {
-        //   const indexMarker = (index + 1) % limit;
-        //   if (indexMarker === 0) {
-        //     console.log("calling getMoreTattoos from TattooModal");
-        //     await getMoreTattoos(page + 1); // Pass the updated page value here
-        //     setPage((prevPage) => prevPage + 1); // Update the page state
-        //   }
-        // }}
-        //
-        // onSlideChange ={ async (index: number) => {
-        //   const indexMarker = (index + 1) % limit;
-        //   if (indexMarker === 0) {
-        //     console.log("calling getMoreTattoos from TattooModal");
-        //     const newTattoos = await getMoreTattoos(page + 1); // Fetch new tattoos
-        //     setTattoos((prevTattoos) => [...prevTattoos, ...newTattoos]); // Update tattoos prop
-        //     setPage((prevPage) => prevPage + 1);
-        //   }
-        // }}
-        onSlideChange={onSlideChange}
+        onSlideChange={() => console.log("SLIDE CHANGE")}
       >
         {carouselItems}
       </Carousel>

@@ -1,10 +1,4 @@
-import {
-  Image,
-  LoadingOverlay,
-  UnstyledButton,
-  createStyles,
-  Text,
-} from "@mantine/core";
+import { LoadingOverlay, Text } from "@mantine/core";
 import { useState } from "react";
 import { TattooModal } from "@/components/modals/TattooModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -28,15 +22,22 @@ export default async function Tattoos() {
 
   return (
     <>
-      <TattooMasonry />
-      <TattooModal
-        onClose={close}
-        opened={opened}
+      <TattooMasonry
         tattoos={tattoos}
+        tattoosLoading={tattoosLoading}
+        isMore={isMore}
         page={page}
         setPage={setPage}
-        limit={limit}
+        open={open}
       />
+      {/* <TattooModal
+        tattoos={tattoos}
+        tattoosLoading={tattoosLoading}
+        onClose={close}
+        opened={opened}
+        page={page}
+        setPage={setPage}
+      /> */}
     </>
   );
 }
